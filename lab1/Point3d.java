@@ -55,4 +55,16 @@ public class Point3d {
         zCoord = val;
     }
 
+    /** Compares this Point3d to another. */
+    public boolean equals(Point3d other_point) {
+        return xCoord == other_point.getX() && 
+        yCoord == other_point.getY() && 
+        zCoord == other_point.getZ();
+    } 
 
+    /** Computes the straight-line distance between this Point3d and another. */
+    public double distanceTo(Point3d other_point) {
+        return Math.sqrt(Math.pow(xCoord - other_point.getX(), 2) + 
+        Math.pow(yCoord - other_point.getY(), 2) + 
+        Math.pow(zCoord - other_point.getZ(), 2));
+}
