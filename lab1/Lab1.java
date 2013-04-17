@@ -48,9 +48,9 @@ public class Lab1 {
 
     /** Takes three ordered triples from the user and generates three Point3d objects. */
     public static void main(String [] args) {
-        Point3d point0 = new Point3d(getDouble(Point 0 x coord), getDouble(Point 0 y coord), getDouble(Point 0 z coord));
-        Point3d point1 = new Point3d(getDouble(Point 1 x coord), getDouble(Point 1 y coord), getDouble(Point 1 z coord));
-        Point3d point2 = new Point3d(getDouble(Point 2 x coord), getDouble(Point 2 y coord), getDouble(Point 2 z coord));
+        Point3d point0 = new Point3d(getDouble("Point 0 x coord"), getDouble("Point 0 y coord"), getDouble("Point 0 z coord"));
+        Point3d point1 = new Point3d(getDouble("Point 1 x coord"), getDouble("Point 1 y coord"), getDouble("Point 1 z coord"));
+        Point3d point2 = new Point3d(getDouble("Point 2 x coord"), getDouble("Point 2 y coord"), getDouble("Point 2 z coord"));
         if (point0.equals(point1) || point1.equals(point2) || point0.equals(point2)) {
             System.out.printI("Two or more points are the same. Please enter three different points.");
             System.exit(0);
