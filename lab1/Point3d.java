@@ -67,4 +67,5 @@ public class Point3d {
         return Math.sqrt(Math.pow(xCoord - other_point.getX(), 2) + 
         Math.pow(yCoord - other_point.getY(), 2) + 
         Math.pow(zCoord - other_point.getZ(), 2));
+    }
 }

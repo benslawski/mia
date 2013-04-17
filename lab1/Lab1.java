@@ -60,7 +60,7 @@ public class Lab1 {
     }
 
     /** Takes three Point3ds and computes the area within the triangle bounded by them. */
-    public static double computeArea(point0, point1, point2) {
+    public static double computeArea(Point3d point0, Point3d point1, Point3d point2) {
         double a = point0.distanceTo(point1);
         double b = point1.distanceTo(point2);
         double c = point0.distanceTo(point2);
