@@ -56,11 +56,22 @@ public class Point3d {
     }
 
     /** Compares this Point3d to another. */
-    public boolean equals(Point3d other_point) {
-        return xCoord == other_point.getX() && 
-        yCoord == other_point.getY() && 
-        zCoord == other_point.getZ();
-    } 
+    public boolean equals(Object obj) {
+        // Is obj a Point3d?
+        if (obj instanceof Point3d) {
+            // Cast another object to Point3d type,
+            // then compare.
+            Point3d other = (Point3d) obj;
+            if (xCoord == other.getX() &&
+                yCoord == other.getY() &&
+                zCoord == other.getZ()) {
+                return true;
+            }
+        }
+        
+        // If we got here then they're not equal.
+        return false;
+    }
 
     /** Computes the straight-line distance between this Point3d and another. */
     public double distanceTo(Point3d other_point) {
