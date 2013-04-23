@@ -1,3 +1,5 @@
+import java.util.*;
+
 /**
  * This class stores the basic state necessary for the A* algorithm to compute a
  * path across a map.  This state includes a collection of "open waypoints" and
@@ -35,29 +37,38 @@ public class AStarState
         return map;
     }
 
-    /** TODO
+    /**
      * This method scans through all open waypoints, and returns the waypoint
      * with the minimum total cost.  If there are no open waypoints, this method
      * returns <code>null</code>.
      **/
     public Waypoint getMinOpenWaypoint()
     {
-        if (numOpenWaypoints == 0)
+        if (numOpenWaypoints() == 0)
             return null;
         
-        Set set = open_waypoints.entrySet();
-        Iterator i = set.iterator();
+        Set open_waypoint_keys = open_waypoints.keySet();
+        Iterator i = open_waypoint_keys.iterator();
+        Waypoint best = ();
+        float best_cost = -Float.MAX_VALUE;
         
-        while (i.hasNext()) {
-            Map.Entry me = (Map.Entry)i.next();
-            // Something about .getTotalCost()
-            // Return reference to waypoint with smallest total cost
+        while (i.hasNext())
+        {
+            Location location = (Location)i.next();
+            Waypoint waypoint = open_waypoints.get(location);
+            float waypoint_total_cost = waypoint.getTotalCost();
+            if (waypoint_total_cost < best_cost)
+            {
+                best = waypoint;
+                best_cost = waypoint_total_cost;
+            }
             
         }
+        return best;
         
     }
 
-    /** TODO
+    /**
      * This method adds a waypoint to (or potentially updates a waypoint already
      * in) the "open waypoints" collection.  If there is not already an open
      * waypoint at the new waypoint's location then the new waypoint is simply
@@ -68,8 +79,20 @@ public class AStarState
      **/
     public boolean addOpenWaypoint(Waypoint newWP)
     {
-        if (numOpenWaypoints == 0)
-          //  open_waypoints.put(getLocation(), hashcode
+        Location location = newWP.getLocation();
+        
+        if (open_waypoints.containsKey(location))
+        {
+            Waypoint current_waypoint = open_waypoints.get(location);
+            if (newWP.getPreviousCost() < current_waypoint.getPreviousCost())
+            {
+                open_waypoints.put(location, newWP);
+                return true;
+            }
+            return false;
+        }
+        open_waypoints.put(location, newWP);
+        return true;
         
     }
 
@@ -87,8 +110,8 @@ public class AStarState
      **/
     public void closeWaypoint(Location loc)
     {
-        open_waypoints.remove(Location loc);
- //TODO       closed_waypoints.put(Location loc, ??);
+        Waypoint waypoint = open_waypoints.remove(loc);
+        closed_waypoints.put(loc, waypoint);
     }
 
     /**
@@ -97,11 +120,7 @@ public class AStarState
      **/
     public boolean isLocationClosed(Location loc)
     {
-        closed_waypoints.containsKey(Location loc);
+        return closed_waypoints.containsKey(loc);
         
-        // If we got here then the collection of closed waypoints
-        // does not contain a waypoint for the specified location.
-        return false;
     }
 }
-
