@@ -1,5 +1,6 @@
 import java.util.*;
 
+
 /**
  * This class stores the basic state necessary for the A* algorithm to compute a
  * path across a map.  This state includes a collection of "open waypoints" and
@@ -49,8 +50,8 @@ public class AStarState
         
         Set open_waypoint_keys = open_waypoints.keySet();
         Iterator i = open_waypoint_keys.iterator();
-        Waypoint best = ();
-        float best_cost = -Float.MAX_VALUE;
+        Waypoint best = null;
+        float best_cost = Float.MAX_VALUE;
         
         while (i.hasNext())
         {
@@ -59,13 +60,12 @@ public class AStarState
             float waypoint_total_cost = waypoint.getTotalCost();
             if (waypoint_total_cost < best_cost)
             {
-                best = waypoint;
+                best = open_waypoints.get(location);
                 best_cost = waypoint_total_cost;
             }
             
         }
         return best;
-        
     }
 
     /**
@@ -93,7 +93,6 @@ public class AStarState
         }
         open_waypoints.put(location, newWP);
         return true;
-        
     }
 
 
@@ -102,7 +101,6 @@ public class AStarState
     {
         return open_waypoints.size();
     }
-
 
     /**
      * This method moves the waypoint at the specified location from the
@@ -121,6 +119,5 @@ public class AStarState
     public boolean isLocationClosed(Location loc)
     {
         return closed_waypoints.containsKey(loc);
-        
     }
 }
