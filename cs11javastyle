@@ -1,0 +1,16 @@
+#!/bin/bash
+
+export CS_HOME=/cs/courses/cs11/software/checkstyle-4.1
+
+CLASSPATH=$CS_HOME/commons-cli.jar:$CLASSPATH
+CLASSPATH=$CS_HOME/commons-logging.jar:$CLASSPATH
+CLASSPATH=$CS_HOME/commons-collections.jar:$CLASSPATH
+CLASSPATH=$CS_HOME/commons-beanutils-core.jar:$CLASSPATH
+CLASSPATH=$CS_HOME/antlr.jar:$CLASSPATH
+CLASSPATH=$CS_HOME/checkstyle-4.1.jar:$CLASSPATH
+
+export CLASSPATH
+
+java com.puppycrawl.tools.checkstyle.Main \
+	-c $CS_HOME/cs11java_checks.xml $@
+
