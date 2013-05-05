@@ -58,8 +58,8 @@ public class FractalExplorer
         JButton resetButton = new JButton("Reset Display");
         
         // Instance of the ResetHandler on the reset button.
-        ResetHandler handler = new ResetHandler();
-        resetButton.addActionListener(handler);
+        ButtonHandler resetHandler = new ButtonHandler();
+        resetButton.addActionListener(resetHandler);
         
         // Add the reset button in the BorderLayout.SOUTH position.
         myFrame.add(resetButton, BorderLayout.SOUTH);
@@ -80,13 +80,9 @@ public class FractalExplorer
         myComboBox.addItem(tricornFractal);
         FractalGenerator burningShipFractal = new BurningShip();
         myComboBox.addItem(burningShipFractal);
-     
-        //*******
-//        myComboBox.addActionListener(new ActionListener() {
-//            public void actionPerformed(ActionEvent event) {
-//                (myComboBox)event.getSource()).getSelectedItem();
-//            }
-//        }
+        
+        ButtonHandler fractalChooser = new ButtonHandler();
+        myComboBox.addActionListener(fractalChooser);
         
         // Create a new JPanel object, add a JLabel object and a JComboBox
         // object to it, and add the panel into the frame in the NORTH
@@ -153,19 +149,25 @@ public class FractalExplorer
         // current contents of its image. 
         display.repaint();
     }
-    /**8*************
-     * An inner class to handle ActionListener events from the reset button.
+    /**
+     * An inner class to handle ActionListener events.
      */
-    private class ResetHandler implements ActionListener
+    private class ButtonHandler implements ActionListener
     {
-        /**
-         * The handler resets the range to the intial range given by the 
-         * generator, and then draws the fractal.
-         */
         public void actionPerformed(ActionEvent e)
         {
-            fractal.getInitialRange(range);
-            drawFractal();
+            String command = e.getActionCommand();
+            
+            if (e.getSource() == fractalChooser) {
+                // Get the fractal the user selected and display it.
+            }
+            else if (command.equals("Reset Display")) {
+                fractal.getInitialRange(range);
+                drawFractal();
+            }
+            else if (command.equals("Save")) {
+                // Save the current fractal image.
+            }
         }
     }
     
