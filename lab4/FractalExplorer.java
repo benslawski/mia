@@ -56,14 +56,11 @@ public class FractalExplorer
         myFrame.add(display, BorderLayout.CENTER);
         
         // Create a reset button.
-        JButton resetButton = new JButton("Reset Display");
+        JButton resetButton = new JButton("Reset");
         
         // Instance of the ButtonHandler on the reset button.
         ButtonHandler resetHandler = new ButtonHandler();
         resetButton.addActionListener(resetHandler);
-        
-        // Add the reset button in the BorderLayout.SOUTH position.
-       // myFrame.add(resetButton, BorderLayout.SOUTH);
         
         // Instance of the MouseHandler on the fractal-display component.
         MouseHandler click = new MouseHandler();
@@ -96,11 +93,17 @@ public class FractalExplorer
         myPanel.add(myComboBox);
         myFrame.add(myPanel, BorderLayout.NORTH);
         
+        // Create a save button, add it to a JPanel in the BorderLayout.SOUTH
+        // position along with the reset button.
         JButton saveButton = new JButton("Save");
         JPanel myBottomPanel = new JPanel();
-        myPanel.add(saveButton);
-        myPanel.add(resetButton);
+        myBottomPanel.add(saveButton);
+        myBottomPanel.add(resetButton);
         myFrame.add(myBottomPanel, BorderLayout.SOUTH);
+        
+        // Instance of ButtonHandler on the save button.
+        ButtonHandler saveHandler = new ButtonHandler();
+        saveButton.addActionListener(saveHandler);
         
         
         // Lay out contents of the frame, cause it to be visible, and
@@ -179,13 +182,13 @@ public class FractalExplorer
             }
             // If the source is the reset button, reset the display and draw
             // the fractal.
-            else if (command.equals("Reset Display")) {
+            else if (command.equals("Reset")) {
                 fractal.getInitialRange(range);
                 drawFractal();
             }
             // If the source is the save button, save the current fractal image.
             else if (command.equals("Save")) {
-                
+                JFileChooser.showSaveDialog(myFrame);
             }
         }
     }
