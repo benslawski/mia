@@ -40,10 +40,11 @@ public class FractalExplorer
         
     }
     
-    // ADD COMMENTS
     /**
      * This method intializes the Swing GUI with a JFrame holding the 
-     * JImageDisplay object and a button to reset the display.
+     * JImageDisplay object and a button to reset the display, a button
+     * to save the current fractal image, and a JComboBox to select the
+     * type of fractal.  The JComboBox is held in a JPanel with a label.
      */
     public void createAndShowGUI()
     {
@@ -57,7 +58,7 @@ public class FractalExplorer
         // Create a reset button.
         JButton resetButton = new JButton("Reset Display");
         
-        // Instance of the ResetHandler on the reset button.
+        // Instance of the ButtonHandler on the reset button.
         ButtonHandler resetHandler = new ButtonHandler();
         resetButton.addActionListener(resetHandler);
         
@@ -71,9 +72,10 @@ public class FractalExplorer
         // Set the frame's default close operation to "exit".
         myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
-        // Set up a combo box and add each fractal type object.
+        // Set up a combo box.
         JComboBox myComboBox = new JComboBox();
         
+        // Add each fractal type object to the combo box.
         FractalGenerator mandelbrotFractal = new Mandelbrot();
         myComboBox.addItem(mandelbrotFractal);
         FractalGenerator tricornFractal = new Tricorn();
@@ -81,6 +83,7 @@ public class FractalExplorer
         FractalGenerator burningShipFractal = new BurningShip();
         myComboBox.addItem(burningShipFractal);
         
+        // Instance of ButtonHandler on the combo box.
         ButtonHandler fractalChooser = new ButtonHandler();
         myComboBox.addActionListener(fractalChooser);
         
@@ -156,17 +159,26 @@ public class FractalExplorer
     {
         public void actionPerformed(ActionEvent e)
         {
+            // Get the source of the action.
             String command = e.getActionCommand();
             
-            if (e.getSource() == fractalChooser) {
-                // Get the fractal the user selected and display it.
+            // If the source is the combo box, get the fractal the user
+            // selected and display it. 
+            if (e.getSource() instanceof JComboBox) {
+                fractal = getSelectedItem();
+                fractal.getInitialRange(range);
+                drawFractal();
+                
             }
+            // If the source is the reset button, reset the display and draw
+            // the fractal.
             else if (command.equals("Reset Display")) {
                 fractal.getInitialRange(range);
                 drawFractal();
             }
+            // If the source is the save button, save the current fractal image.
             else if (command.equals("Save")) {
-                // Save the current fractal image.
+                
             }
         }
     }
