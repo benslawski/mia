@@ -63,7 +63,7 @@ public class FractalExplorer
         resetButton.addActionListener(resetHandler);
         
         // Add the reset button in the BorderLayout.SOUTH position.
-        myFrame.add(resetButton, BorderLayout.SOUTH);
+       // myFrame.add(resetButton, BorderLayout.SOUTH);
         
         // Instance of the MouseHandler on the fractal-display component.
         MouseHandler click = new MouseHandler();
@@ -95,6 +95,12 @@ public class FractalExplorer
         myPanel.add(myLabel);
         myPanel.add(myComboBox);
         myFrame.add(myPanel, BorderLayout.NORTH);
+        
+        JButton saveButton = new JButton("Save");
+        JPanel myBottomPanel = new JPanel();
+        myPanel.add(saveButton);
+        myPanel.add(resetButton);
+        myFrame.add(myBottomPanel, BorderLayout.SOUTH);
         
         
         // Lay out contents of the frame, cause it to be visible, and
@@ -165,7 +171,8 @@ public class FractalExplorer
             // If the source is the combo box, get the fractal the user
             // selected and display it. 
             if (e.getSource() instanceof JComboBox) {
-                fractal = getSelectedItem();
+                JComboBox mySource = (JComboBox) e.getSource();
+                fractal = (FractalGenerator) mySource.getSelectedItem();
                 fractal.getInitialRange(range);
                 drawFractal();
                 
