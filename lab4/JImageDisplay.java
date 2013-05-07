@@ -14,6 +14,10 @@ class JImageDisplay extends JComponent
      */ 
     private BufferedImage displayImage;
     
+    public BufferedImage getImage() {
+        return displayImage;
+    }
+    
     /**
       * The constructor takes an integer width and height and initializes 
       * its BufferedImage object to be a new image with that width an height 

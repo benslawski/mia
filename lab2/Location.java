@@ -26,17 +26,19 @@ public class Location
     
     /** Compares this Location to another. **/
     public boolean equals(Object obj) {
+        
         // Is obj a Location?
         if (obj instanceof Location) {
+            
             // Cast another object to Location type,
-            // then compare.
+            // then compare.  Return true if equal.
             Location other = (Location) obj;
             if (xCoord == other.xCoord && yCoord == other.yCoord) {
                 return true;
             }
         }
         
-        // If we got here then they're not equal.
+        // If we got here then they're not equal.  Return false. 
         return false;
     }
 

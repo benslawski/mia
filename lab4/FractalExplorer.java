@@ -2,6 +2,10 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.event.*;
+import javax.swing.JFileChooser.*;
+import javax.swing.filechooser.*;
+import javax.imageio.ImageIO.*;
+import java.awt.image.*;
 
 /**
  * This class allows for examination of different parts of the fractal by
@@ -186,9 +190,53 @@ public class FractalExplorer
                 fractal.getInitialRange(range);
                 drawFractal();
             }
-            // If the source is the save button, save the current fractal image.
+            // If the source is the save button, save the current fractal
+            // image.
             else if (command.equals("Save")) {
-                JFileChooser.showSaveDialog(myFrame);
+                
+                // Allow the user to choose a file to save the image to.
+                JFileChooser myFileChooser = new JFileChooser();
+                
+                // Save only PNG images.
+                FileFilter extensionFilter =
+                new FileNameExtensionFilter("PNG Images", "png");
+                myFileChooser.setFileFilter(extensionFilter);
+                // Ensures that the filechooser won't allow non-".png"
+                // filenames.
+                myFileChooser.setAcceptAllFileFilterUsed(false);
+                
+                // Pops up a "Save file" window which lets the user select a
+                // directory and file to save to.  
+                int userSelection = myFileChooser.showSaveDialog(display);
+                
+                // If the outcome of the file-selection operation is
+                // APPROVE_OPTION, continue with the file-save operation.
+                if (userSelection == JFileChooser.APPROVE_OPTION) {
+                    
+                    // Get the file and file name. 
+                    java.io.File file = myFileChooser.getSelectedFile();
+                    String file_name = file.toString();
+                    
+                    // Try saving the fractal image to disk.
+                    try {
+                        BufferedImage displayImage = display.getImage();
+                        javax.imageio.ImageIO.write(displayImage, "png", file);
+                    }
+                    // Catches IllegalArgumentExceptions and prints a message.
+                    catch (IllegalArgumentException argumentException) {
+                        System.out.println("Bag input: "
+                        + argumentException.getMessage());
+                    }
+                    // Catches IOExceptions and prints a message with the
+                    // exception.
+                    catch (java.io.IOException exception) {
+                        JOptionPane.showMessageDialog(display,
+                        exception.getMessage(), "Cannot Save Image",
+                        JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+                // If the file-save operation is not APPROVE_OPTION, return.
+                else return;
             }
         }
     }
