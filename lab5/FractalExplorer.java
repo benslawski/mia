@@ -342,10 +342,10 @@ public class FractalExplorer
                  * Find the corresponding coordinates xCoord and yCoord
                  * in the fractal's display area.
                  */
-                double xCoord = fractal.getCoord(range.i, range.i +
-                range.width, displaySize, i);
-                double yCoord = fractal.getCoord(range.row, range.row +
-                range.height, displaySize, row);
+                double xCoord = fractal.getCoord(range.x,
+                range.x + range.width, displaySize, i);
+                double yCoord = fractal.getCoord(range.y,
+                range.y + range.height, displaySize, yCoordinate);
             
                 /**
                  * Compute the number of iterations for the coordinates in
@@ -382,8 +382,8 @@ public class FractalExplorer
         }
         protected void done() {
             for (int i = 0; i < computedRGBValues.length; i++) {
-                display.drawPixel(i, row, computedRGBValues[i]);
-            display.repaint(0, 0, row, displaySize, 1);
+                display.drawPixel(i, yCoordinate, computedRGBValues[i]);
+            display.repaint(0, 0, yCoordinate, displaySize, 1);
         }
     }
     
@@ -393,7 +393,7 @@ public class FractalExplorer
      * createAndShowGUI() on the explorer object, and then calls 
      * drawFractal() on the explorer to see the initial view.
      */
-    public static void main(String[] args)
+    public void main(String[] args)
     {
         FractalExplorer displayExplorer = new FractalExplorer(600);
         displayExplorer.createAndShowGUI();
