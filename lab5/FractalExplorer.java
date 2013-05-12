@@ -359,7 +359,6 @@ public class FractalExplorer
                  */
                 if (iteration == -1){
                     computedRGBValues[i] = 0;
-                    return null;
                 }
             
                 else {
@@ -376,7 +375,7 @@ public class FractalExplorer
                      */
                     computedRGBValues[i] = rgbColor;
                 
-                    return null;
+            return null;
                 }
             }
         }
@@ -393,7 +392,7 @@ public class FractalExplorer
      * createAndShowGUI() on the explorer object, and then calls 
      * drawFractal() on the explorer to see the initial view.
      */
-    public void main(String[] args)
+    public static void main(String[] args)
     {
         FractalExplorer displayExplorer = new FractalExplorer(600);
         displayExplorer.createAndShowGUI();
