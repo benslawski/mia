@@ -310,6 +310,84 @@ public class FractalExplorer
     }
     
     /**
+     * Computes the color values for a single row of the fractal.
+     */
+    private class FractalWorker extends SwingWorker<Object, Object>
+    {
+        /** 
+         * A field for the integer y-coordinate of the row 
+         * that will be computed.
+         */
+        int yCoordinate;
+        
+        /** 
+         * An array of ints to hold the computed RGB values 
+         * for each pixel in the row.
+         */
+        int[] computedRGBValues;
+        
+        /** 
+         * The constructor takes the y-coordinate as an
+         * argument and stores it.
+         */
+        private FractalWorker(int row) {
+            yCoordinate = row;
+        }
+        
+        protected Object doInBackground() {
+            int[] computedRGBValues = new int[displaySize];
+            for (int i = 0; i < computedRGBValues.length; i++) {
+
+                /**
+                 * Find the corresponding coordinates xCoord and yCoord
+                 * in the fractal's display area.
+                 */
+                double xCoord = fractal.getCoord(range.i, range.i +
+                range.width, displaySize, i);
+                double yCoord = fractal.getCoord(range.row, range.row +
+                range.height, displaySize, row);
+            
+                /**
+                 * Compute the number of iterations for the coordinates in
+                 * the fractal's display area.
+                 */
+                int iteration = fractal.numIterations(xCoord, yCoord);
+                        
+                /** 
+                 * If number of iterations is -1, set current int in the 
+                 * computed RGB values int array to black.
+                 */
+                if (iteration == -1){
+                    computedRGBValues[i] = 0;
+                    return null;
+                }
+            
+                else {
+                    /**
+                     * Otherwise, choose a hue value based on the number
+                     * of iterations.
+                     */
+                    float hue = 0.7f + (float) iteration / 200f;
+                    int rgbColor = Color.HSBtoRGB(hue, 1f, 1f);
+                
+                    /** 
+                     * Update the int array with the color for
+                     * the current pixel. 
+                     */
+                    computedRGBValues[i] = rgbColor;
+                
+                    return null;
+                }
+            }
+        }
+        protected void done() {
+            for (int i = 0; i < computedRGBValues.length; i++) {
+                display.drawPixel(i, row, computedRGBValues[i]);
+            display.repaint(0, 0, row, displaySize, 1);
+        }
+    }
+    
+    /**
      * A static main() method to launch FractalExplorer.  Initializes a new
      * FractalExplorer instance with a display-size of 600, calls 
      * createAndShowGUI() on the explorer object, and then calls 
@@ -321,4 +399,6 @@ public class FractalExplorer
         displayExplorer.createAndShowGUI();
         displayExplorer.drawFractal();
     }
+    
+}
 }

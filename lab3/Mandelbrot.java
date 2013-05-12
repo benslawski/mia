@@ -35,9 +35,9 @@ public class Mandelbrot extends FractalGenerator
      */
     public int numIterations(double x, double y)
     {
-        // Start with iterations at 0.
+        /** Start with iterations at 0. */
         int iteration = 0;
-        // Initialize zreal and zimaginary.
+        /** Initialize zreal and zimaginary. */
         double zreal = 0;
         double zimaginary = 0;
         
@@ -51,10 +51,6 @@ public class Mandelbrot extends FractalGenerator
         while (iteration < MAX_ITERATIONS &&
                zreal * zreal + zimaginary * zimaginary < 4)
         {
-            //
-            // CHANGED AFTER SUBMISSION: ADDED TEMPORARY VARIABLES
-            // ZREALUPDATED AND ZIMAGINARY UPDATED
-            //
             double zrealUpdated = zreal * zreal - zimaginary * zimaginary + x;
             double zimaginaryUpdated = 2 * zreal * zimaginary + y;
             zreal = zrealUpdated;
