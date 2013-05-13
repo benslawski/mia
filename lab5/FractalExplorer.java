@@ -141,49 +141,14 @@ public class FractalExplorer
      */
     private void drawFractal()
     {
-        /** Loop through every pixel in the display **/
+        /** Loop through each row and call FractalWorker **/
         for (int x=0; x<displaySize; x++){
-            for (int y=0; y<displaySize; y++){
-                
-                /**
-                 * Find the corresponding coordinates xCoord and yCoord
-                 * in the fractal's display area.
-                 */
-                double xCoord = fractal.getCoord(range.x,
-                range.x + range.width, displaySize, x);
-                double yCoord = fractal.getCoord(range.y,
-                range.y + range.height, displaySize, y);
-                
-                /**
-                 * Compute the number of iterations for the coordinates in
-                 * the fractal's display area.
-                 */
-                int iteration = fractal.numIterations(xCoord, yCoord);
-                
-                /** If number of iterations is -1, set the pixel to black. **/
-                if (iteration == -1){
-                    display.drawPixel(x, y, 0);
-                }
-                
-                else {
-                    /**
-                     * Otherwise, choose a hue value based on the number
-                     * of iterations.  
-                     */
-                    float hue = 0.7f + (float) iteration / 200f;
-                    int rgbColor = Color.HSBtoRGB(hue, 1f, 1f);
-                
-                    /** Update the display with the color for each pixel. **/
-                    display.drawPixel(x, y, rgbColor);
-                }
-                
-            }
+            FractalWorker drawRow = new FractalWorker(x);
+            drawRow.execute();
         }
-        /**
-         * When all the pixels have been drawn, repaint JImageDisplay to match
-         * current contents of its image. 
-         */
-        display.repaint();
+                
+
+
     }
     /**
      * An inner class to handle ActionListener events.
@@ -374,15 +339,16 @@ public class FractalExplorer
                      * the current pixel. 
                      */
                     computedRGBValues[i] = rgbColor;
-                
-            return null;
                 }
             }
+            return null;
+            
         }
         protected void done() {
             for (int i = 0; i < computedRGBValues.length; i++) {
                 display.drawPixel(i, yCoordinate, computedRGBValues[i]);
             display.repaint(0, 0, yCoordinate, displaySize, 1);
+            }
         }
     }
     
@@ -399,5 +365,4 @@ public class FractalExplorer
         displayExplorer.drawFractal();
     }
     
-}
 }
