@@ -14,6 +14,11 @@ import java.awt.image.*;
  */
 public class FractalExplorer
 {
+    /** Fields for buttons for enableUI. **/
+    private JButton saveButton;
+    private JButton resetButton;
+    private JComboBox myComboBox;
+    
     /** Number of rows remaining to be drawn. **/
     private int rowsRemaining;
     
@@ -69,7 +74,7 @@ public class FractalExplorer
         myFrame.add(display, BorderLayout.CENTER);
         
         /** Create a reset button. **/
-        JButton resetButton = new JButton("Reset");
+        resetButton = new JButton("Reset");
         
         /** Instance of the ButtonHandler on the reset button. **/
         ButtonHandler resetHandler = new ButtonHandler();
@@ -83,7 +88,7 @@ public class FractalExplorer
         myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         /** Set up a combo box. **/
-        JComboBox myComboBox = new JComboBox();
+        myComboBox = new JComboBox();
         
         /** Add each fractal type object to the combo box. **/
         FractalGenerator mandelbrotFractal = new Mandelbrot();
@@ -112,7 +117,7 @@ public class FractalExplorer
          * Create a save button, add it to a JPanel in the BorderLayout.SOUTH
          * position along with the reset button.
          */
-        JButton saveButton = new JButton("Save");
+        saveButton = new JButton("Save");
         JPanel myBottomPanel = new JPanel();
         myBottomPanel.add(saveButton);
         myBottomPanel.add(resetButton);
@@ -262,7 +267,7 @@ public class FractalExplorer
         {
             /** Return immediately if rowsRemaining is nonzero. **/
             if (rowsRemaining != 0) {
-                return
+                return;
             }
             /** Get x coordinate of display area of mouse click. **/
             int x = e.getX();
