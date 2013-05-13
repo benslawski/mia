@@ -14,7 +14,7 @@ import java.awt.image.*;
  */
 public class FractalExplorer
 {
-    /** Fields for buttons for enableUI. **/
+    /** Fields for save button, reset button, and combo box for enableUI. **/
     private JButton saveButton;
     private JButton resetButton;
     private JComboBox myComboBox;
@@ -138,16 +138,21 @@ public class FractalExplorer
         
     }
     
-    /**
-     * Private helper method to display the fractal.  This method loops 
-     * through every row in the display and calls FractalWorker to draw it.
-     * Call enableUI(false) to disable all the UI controls during drawing.
-     * Set rowsRemaining to total number of rows.
-     */
+    /** Private helper method to display the fractal.  **/
     private void drawFractal()
     {
+        /** 
+         * Call enableUI(false) to disable all the UI controls during drawing.
+         */
         enableUI(false);
+        
+        /** Set rowsRemaining to the total number of rows. */
         rowsRemaining = displaySize;
+        
+        /** 
+         * Loop through every row in the display and call FractalWorker 
+         * to draw it.
+         */
         for (int x=0; x<displaySize; x++){
             FractalWorker drawRow = new FractalWorker(x);
             drawRow.execute();
@@ -323,7 +328,10 @@ public class FractalExplorer
          * corresponding element of the integer array. Returns null.
          */ 
         protected Object doInBackground() {
+            
             computedRGBValues = new int[displaySize];
+            
+            /** Iterate through all pixels in the row. **/
             for (int i = 0; i < computedRGBValues.length; i++) {
 
                 /**
@@ -368,11 +376,15 @@ public class FractalExplorer
             
         }
         /**
-         * Iterate over the array of row-data, drawing in the pixels
-         * that were computed in doInBackground().  Redraw the row 
-         * that was changed.
+         * Called when the background task is completed.  Draws the pixels 
+         * for the current row & updates the display for that row.
          */
         protected void done() {
+            /**
+             * Iterate over the array of row-data, drawing in the pixels
+             * that were computed in doInBackground().  Redraw the row
+             * that was changed.
+             */
             for (int i = 0; i < computedRGBValues.length; i++) {
                 display.drawPixel(i, yCoordinate, computedRGBValues[i]);
             }
