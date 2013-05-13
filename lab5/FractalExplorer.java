@@ -14,6 +14,9 @@ import java.awt.image.*;
  */
 public class FractalExplorer
 {
+    /** Number of rows remaining to be drawn. **/
+    private int rowsRemaining;
+    
     /** Integer display size is the width and height of display in pixels. **/
     private int displaySize;
     
@@ -132,23 +135,29 @@ public class FractalExplorer
     
     /**
      * Private helper method to display the fractal.  This method loops 
-     * through every pixel in the display and computes the number of 
-     * iterations for the corresponding coordinates in the fractal's
-     * display area.  If the number of iterations is -1 set the pixel's color
-     * to black.  Otherwise, choose a value based on the number of iterations.
-     * Update the display with the color for each pixel and repaint
-     * JImageDisplay when all pixels have been drawn.
+     * through every row in the display and calls FractalWorker to draw it.
+     * Call enableUI(false) to disable all the UI controls during drawing.
+     * Set rowsRemaining to total number of rows.
      */
     private void drawFractal()
     {
-        /** Loop through each row and call FractalWorker **/
+        enableUI(false);
+        rowsRemaining = displaySize;
         for (int x=0; x<displaySize; x++){
             FractalWorker drawRow = new FractalWorker(x);
             drawRow.execute();
         }
-                
 
-
+    }
+    /**
+     * Enables or disables the interface's buttons and combo-box based on the
+     * specified value.  Updates the enabled-state of the save button, reset
+     * button, and combo-box.
+     */
+    private void enableUI(boolean val) {
+        myComboBox.setEnabled(val);
+        resetButton.setEnabled(val);
+        saveButton.setEnabled(val);
     }
     /**
      * An inner class to handle ActionListener events.
@@ -251,6 +260,10 @@ public class FractalExplorer
         @Override
         public void mouseClicked(MouseEvent e)
         {
+            /** Return immediately if rowsRemaining is nonzero. **/
+            if (rowsRemaining != 0) {
+                return
+            }
             /** Get x coordinate of display area of mouse click. **/
             int x = e.getX();
             double xCoord = fractal.getCoord(range.x,
@@ -299,8 +312,13 @@ public class FractalExplorer
             yCoordinate = row;
         }
         
+        /**
+         * This method is called on a background thread.  It computes 
+         * the RGB value for all the pixels in 1 row and stores it in the
+         * corresponding element of the integer array. Returns null.
+         */ 
         protected Object doInBackground() {
-            int[] computedRGBValues = new int[displaySize];
+            computedRGBValues = new int[displaySize];
             for (int i = 0; i < computedRGBValues.length; i++) {
 
                 /**
@@ -344,10 +362,21 @@ public class FractalExplorer
             return null;
             
         }
+        /**
+         * Iterate over the array of row-data, drawing in the pixels
+         * that were computed in doInBackground().  Redraw the row 
+         * that was changed.
+         */
         protected void done() {
             for (int i = 0; i < computedRGBValues.length; i++) {
                 display.drawPixel(i, yCoordinate, computedRGBValues[i]);
+            }
             display.repaint(0, 0, yCoordinate, displaySize, 1);
+            
+            /** Decrement rows remaining.  If 0, call enableUI(true) **/
+            rowsRemaining--;
+            if (rowsRemaining == 0) {
+                enableUI(true);
             }
         }
     }
