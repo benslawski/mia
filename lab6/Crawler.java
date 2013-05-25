@@ -37,9 +37,12 @@ public class Crawler {
             linksList = getAllLinks(depthPair.getURL());
             for (int i=0);i<linksList.size();i++) {
                 newURL = list.get(i);
-                if newURL equals( ) {
+                if seenURLs.contains(newURL) {
+                    break;
+                }
+                else {
                     seenURLs.add(newURL);
-                    pendingURLs.add(newURL, myDepth + i)
+                    pendingURLs.add(newURL, myDepth +)
                 }
             }
         }
