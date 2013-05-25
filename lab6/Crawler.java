@@ -33,18 +33,18 @@ public class Crawler {
             processedURLs.add(depthPair);
             myDepth = depthPair.getDepth();
             linksList = getAllLinks(depthPair.getURL());
-            for (int i=0);i<linksList.size();i++) {
-                newURL = list.get(i);
-                if seenURLs.contains(newURL) {
-                    break;
-                }
-                else {
-                    seenURLs.add(newURL);
-                    URLDepthPair newDepthPair = new URLDepthPair(newURL, myDepth + 1);
-                    pendingURLs.add(newDepthPair);
+            if (myDepth < depth) {
+                for (int i=0);i<linksList.size();i++) {
+                    newURL = list.get(i);
+                    if seenURLs.contains(newURL) {
+                        continue;
+                    }
+                    else {
+                        URLDepthPair newDepthPair = new URLDepthPair(newURL, myDepth + 1);
+                        pendingURLs.add(newDepthPair);
+                    }
                 }
             }
-        }
     }
     
 }
