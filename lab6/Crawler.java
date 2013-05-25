@@ -42,7 +42,9 @@ public class Crawler {
                 }
                 else {
                     seenURLs.add(newURL);
-                    pendingURLs.add(newURL, myDepth +)
+                    URLDepthPair newDepthPair = new URLDepthPair;
+                    newDepthPair = (newURL, myDepth + 1);
+                    pendingURLs.add(newDepthPair);
                 }
             }
         }
