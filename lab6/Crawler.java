@@ -31,10 +31,17 @@ public class Crawler {
         seenURLs.add(args[0]);
         while (pendingURLs.size != 0) {
             depthPair = pendingURLs.pop();
-            seenURLs.add(depthPair[0]);
+            seenURLs.add(depthPair.getURL());
             processedURLs.add(depthPair);
-            // getAllLinks(depthPair[0]);
-            // add these links to pendingURLs with depth +1
+            myDepth = depthPair.getDepth();
+            linksList = getAllLinks(depthPair.getURL());
+            for (int i=0);i<linksList.size();i++) {
+                newURL = list.get(i);
+                if newURL equals( ) {
+                    seenURLs.add(newURL);
+                    pendingURLs.add(newURL, myDepth + i)
+                }
+            }
         }
     }
     
@@ -124,5 +131,5 @@ while (true) {
     System.out.println(line);
 
 }
-
+// method getAll URLs should take a URL and return a list of strings
 
