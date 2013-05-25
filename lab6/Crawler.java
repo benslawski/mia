@@ -5,18 +5,27 @@ public class Crawler {
     
     public static void main(String[] args) {
         int depth = 0;
-        try {
-            // Parse the string argument into an integer value.
-            depth = Integer.parseInt(args[1]);
-        }
-        catch (NumberFormatException nfe) {
-            // The second argument isn't a valid integer.  Stop and print
-            // out a usage message.
+        if (args.length =! 2) {
             System.out.println("usage: java Crawler <URL> <depth>");
             System.exit(1);
         }
+        else {
+            try {
+                // Parse the string argument into an integer value.
+                depth = Integer.parseInt(args[1]);
+            }
+            catch (NumberFormatException nfe) {
+                // The second argument isn't a valid integer.  Stop and print
+                // out a usage message.
+                System.out.println("usage: java Crawler <URL> <depth>");
+                System.exit(1);
+            }
+
+        }
     }
 }
+
+public class URLDepthPair(
 public class Socket {
     
     public Socket(String host, int port) {
