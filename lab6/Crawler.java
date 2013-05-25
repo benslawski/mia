@@ -27,6 +27,7 @@ public class Crawler {
         URLDepthPair currentDepthPair = new URLDepthPair(args[0], 0);
         pendingURLs.add(currentDepthPair);
         List<String> seenURLs = new List<String>;
+        seenURLs.add(currentDepthPair.getURL());
         while (pendingURLs.size != 0) {
             depthPair = pendingURLs.pop();
             processedURLs.add(depthPair);
