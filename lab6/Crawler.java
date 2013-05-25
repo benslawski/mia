@@ -23,6 +23,15 @@ public class Crawler {
 
         }
     }
+    LinkedList<URLDepthPair> pendingURLs = newLinkedList<URLDepthPair>();
+    LinkedList<URLDepthPair> processedURLs = newLinkedList<URLDepthPair>();
+    new URLDepthPair
+    pendingURLs.add(currentURL, currentDepth);
+    
+    public Socket(String host, int port) {
+        //Creates a new socket from a string representing the host and a port
+        // number, and makes the connection.
+    }
 }
 
 public class URLDepthPair {
@@ -42,6 +51,7 @@ public class URLDepthPair {
     public toString() {
         return currentDepth.toString() + currentURL;
     }
+    // URL parsing and manipulation
 }
 public class Socket {
     
