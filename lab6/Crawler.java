@@ -25,7 +25,24 @@ public class Crawler {
     }
 }
 
-public class URLDepthPair(
+public class URLDepthPair {
+    private int currentDepth;
+    private String currentURL;
+    
+    public URLDepthPair(String URL, int depth) {
+        currentDepth = depth;
+        currentURL = URL;
+    }
+    public getURL() {
+        return currentURL;
+    }
+    public getDepth() {
+        return currentDepth;
+    }
+    public toString() {
+        return currentDepth.toString() + currentURL;
+    }
+}
 public class Socket {
     
     public Socket(String host, int port) {
