@@ -10,6 +10,10 @@ public class Crawler {
     
     public static final String END_URL = "\"";
     
+    public LinkedList<URLDepthPair> getSites() {
+        return processedURLs;
+    }
+    
     public static void main(String[] args) {
         int depth = 0;
         if (args.length =! 2) {
@@ -31,11 +35,11 @@ public class Crawler {
         }
         
         
-        LinkedList<URLDepthPair> pendingURLs = newLinkedList<URLDepthPair>();
-        LinkedList<URLDepthPair> processedURLs = newLinkedList<URLDepthPair>();
+        LinkedList<URLDepthPair> pendingURLs = new LinkedList<URLDepthPair>();
+        LinkedList<URLDepthPair> processedURLs = new LinkedList<URLDepthPair>();
         URLDepthPair currentDepthPair = new URLDepthPair(args[0], 0);
         pendingURLs.add(currentDepthPair);
-        List<String> seenURLs = new List<String>;
+        List<String> seenURLs = new List<String>();
         seenURLs.add(currentDepthPair.getURL());
         
         while (pendingURLs.size != 0) {
@@ -46,7 +50,7 @@ public class Crawler {
             if (myDepth < depth) {
                 for (int i=0;i<linksList.size();i++) {
                     newURL = list.get(i);
-                    if seenURLs.contains(newURL) {
+                    if (seenURLs.contains(newURL)) {
                         continue;
                     }
                     else {
@@ -56,12 +60,6 @@ public class Crawler {
                     }
                 }
             }
-        }
-        
-        
-        
-        public LinkedList<URLDEpthPair> getSites() {
-            return processedURLs;
         }
     }
     
@@ -74,16 +72,16 @@ public class Crawler {
         // true means PrintWriter will flush after every output
         PrintWriter myWriter = new PrintWriter(outStream, true);
         
-        if (URLDepthPair.webHost startswith(URLDepthPair.URL_PREFIX)) {
+        if (URLDepthPair.webHost.startswith(URLDepthPair.URL_PREFIX)) {
             continue;
         }
         else {
             throw MalformedURLException;
         }
         
-        myWriter.println("GET" + URLDepthPair.docPath + " HTTP:/1.1")
+        myWriter.println("GET" + URLDepthPair.docPath + " HTTP:/1.1");
         myWriter.println("Host: " + URLDepthPair.webHost);
-        myWriter.println("Connection: close")
+        myWriter.println("Connection: close");
         myWriter.println();
         
         // Request is sent!  Server will start responding now.
@@ -91,7 +89,7 @@ public class Crawler {
         InputStream inStream = sock.getInputStream();
         InputStreamReader inStreamReader = new InputStreamReader(inStream);
         BufferedReader BuffReader = new BufferedReader(inStreamReader);
-        LinkedList<String> URLs = newLinkedList<String>();
+        LinkedList<String> URLs = new LinkedList<String>();
         while (true) {
             String line = BuffReader.readLine();
             if (line == null)
@@ -121,33 +119,33 @@ public class Crawler {
     }
 }
 
-public class URLDepthPair {
+private class URLDepthPair {
     
     public static final String URL_PREFIX = "http://";
 
     private int currentDepth;
     private String currentURL;
     
-    public URLDepthPair(String URL, int depth) {
+    public void URLDepthPair(String URL, int depth) {
         currentDepth = depth;
         currentURL = URL;
     }
-    public getURL() {
+    public string getURL() {
         return currentURL;
     }
-    public getDepth() {
+    public int getDepth() {
         return currentDepth;
     }
-    public toString() {
+    public string toString() {
         return currentDepth.toString() + currentURL;
     }
-    public getDocPath() {
-        index = 0
+    public string getDocPath() {
+        index = 0;
         index = currentURL.indexOf(Crawler.END_URL);
         String docPath = substring(index);
         return docPath;
     }
-    public getwebHost() {
+    public string getwebHost() {
         index = 0;
         index = currentURL.indexOf(URL_PREFIX, index);
         index += URL_PREFIX.length();
