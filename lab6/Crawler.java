@@ -39,12 +39,12 @@ public class Crawler {
         ArrayList<String> seenURLs = new ArrayList<String>();
         seenURLs.add(currentDepthPair.getURL());
         
-        while (pendingURLs.size != 0) {
+        while (pendingURLs.size() != 0) {
             URLDepthPair depthPair = pendingURLs.pop();
             processedURLs.add(depthPair);
             int myDepth = depthPair.getDepth();
             LinkedList<String> linksList = new LinkedList<String>();
-            linksList = getAllLinks(depthPair.getURL());
+            linksList = this.getAllLinks(depthPair.getURL());
             if (myDepth < depth) {
                 for (int i=0;i<linksList.size();i++) {
                     String newURL = linksList.get(i);
@@ -69,12 +69,12 @@ public class Crawler {
         // true means PrintWriter will flush after every output
         PrintWriter myWriter = new PrintWriter(outStream, true);
         
-        if (!URLDepthPair.getWebHost.startswith(URLDepthPair.URL_PREFIX)) {
-            throw MalformedURLException;
+        if (!URLDepthPair.getWebHost().startswith(URLDepthPair.URL_PREFIX)) {
+            throw new MalformedURLException();
         }
         
-        myWriter.println("GET" + URLDepthPair.getDocPath + " HTTP:/1.1");
-        myWriter.println("Host: " + URLDepthPair.getWebHost);
+        myWriter.println("GET" + URLDepthPair.getDocPath() + " HTTP:/1.1");
+        myWriter.println("Host: " + URLDepthPair.getWebHost());
         myWriter.println("Connection: close");
         myWriter.println();
         
