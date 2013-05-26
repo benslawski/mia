@@ -74,6 +74,13 @@ public class Crawler {
         // true means PrintWriter will flush after every output
         PrintWriter myWriter = new PrintWriter(outStream, true);
         
+        if (URLDepthPair.webHost startswith(URLDepthPair.URL_PREFIX)) {
+            continue;
+        }
+        else {
+            throw MalformedURLException;
+        }
+        
         myWriter.println("GET" + URLDepthPair.docPath + " HTTP:/1.1")
         myWriter.println("Host: " + URLDepthPair.webHost);
         myWriter.println("Connection: close")
