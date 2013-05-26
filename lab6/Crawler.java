@@ -1,3 +1,5 @@
+// need to catch MalformedURLException for non http:// starting links
+
 import java.net.*;
 import java.util.*;
 
@@ -158,20 +160,19 @@ public class URLDepthPair {
     public getDocPath() {
         index = currentURL.indexOf("/");
         String docPath = substring(index);
+        return docPath;
     }
     public getwebHost() {
         index = 0;
-        while (true) {
-            index = currentURL.indexOf(URL_PREFIX, index);
-            if (index == -1)
-                break;
-            index += URL_PREFIX.length();
-            beginIndex = index;
-            index = currentURL.indexOf("/");
-            endIndex = index - 1;
-            String webHost = substring(beginIndex, endIndex);
-            return webHost;
-        }
+        index = currentURL.indexOf(URL_PREFIX, index);
+        if (index == -1)
+            break;
+        index += URL_PREFIX.length();
+        beginIndex = index;
+        index = currentURL.indexOf("/");
+        endIndex = index - 1;
+        String webHost = substring(beginIndex, endIndex);
+        return webHost;
     }
         
 
