@@ -68,14 +68,14 @@ public class Crawler {
         try {
             Socket sock = new Socket(myDepthPair.getURL(), 80);
         }
-        catch (UnknownHostException) {
+        catch (UnknownHostException e) {
             
         }
         try {
             sock.setSoTimeout(3000);
         }
-        catch {
-            SocketException;
+        catch (SocketException e) {
+            
         }
         String docPath = myDepthPair.getDocPath();
         String webHost = myDepthPair.getWebHost();
