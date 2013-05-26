@@ -24,8 +24,10 @@ public class URLDepthPair {
         String docPath = substring(index);
         return docPath;
     }
-    public String getwebHost() {
-        index = 0;
+    public String getWebHost() {
+        int index = 0;
+        int beginIndex = 0;
+        int endIndex = 0;
         index = currentURL.indexOf(URL_PREFIX, index);
         index += URL_PREFIX.length();
         beginIndex = index;

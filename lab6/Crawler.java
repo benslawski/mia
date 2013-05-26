@@ -47,7 +47,7 @@ public class Crawler {
             linksList = getAllLinks(depthPair.getURL());
             if (myDepth < depth) {
                 for (int i=0;i<linksList.size();i++) {
-                    String newURL = list.get(i);
+                    String newURL = linksList.get(i);
                     if (seenURLs.contains(newURL)) {
                         continue;
                     }
@@ -69,10 +69,7 @@ public class Crawler {
         // true means PrintWriter will flush after every output
         PrintWriter myWriter = new PrintWriter(outStream, true);
         
-        if (URLDepthPair.webHost.startswith(URLDepthPair.URL_PREFIX)) {
-            continue;
-        }
-        else {
+        if (!URLDepthPair.getWebHost.startswith(URLDepthPair.URL_PREFIX)) {
             throw MalformedURLException;
         }
         
