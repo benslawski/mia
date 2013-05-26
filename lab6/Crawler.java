@@ -38,29 +38,6 @@ public class Crawler {
         List<String> seenURLs = new List<String>;
         seenURLs.add(currentDepthPair.getURL());
         
-        
-        Socket sock = new Socket(URL, 80);
-        sock.setSoTimeout(3000);
-        
-        OutputStream outStream = sock.getOutputStream();
-        
-        // true means PrintWriter will flush after every output
-        PrintWriter myWriter = new PrintWriter(outStream, true);
-        
-        myWriter.println("GET" + docPath + " HTTP:/1.1")
-        myWriter.println("Host: " + webHost);
-        myWriter.println("Connection: close")
-        myWriter.println();
-        
-        // Request is sent!  Server will start responding now.
-        
-        InputStream inStream = sock.getInputStream();
-        InputStreamReader inStreamReader = new InputStreamReader(inStream);
-        BufferedReader BuffReader = new BufferedReader(inStreamReader);
-        LinkedList<String> URLs = newLinkedList<String>();
-        while (true) {
-            String line = BuffReader.readLine();
-        
         while (pendingURLs.size != 0) {
             depthPair = pendingURLs.pop();
             processedURLs.add(depthPair);
@@ -97,8 +74,8 @@ public class Crawler {
         // true means PrintWriter will flush after every output
         PrintWriter myWriter = new PrintWriter(outStream, true);
         
-        myWriter.println("GET" + docPath + " HTTP:/1.1")
-        myWriter.println("Host: " + webHost);
+        myWriter.println("GET" + URLDepthPair.docPath + " HTTP:/1.1")
+        myWriter.println("Host: " + URLDepthPair.webHost);
         myWriter.println("Connection: close")
         myWriter.println();
         
