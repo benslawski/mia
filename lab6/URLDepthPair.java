@@ -5,7 +5,7 @@ public class URLDepthPair {
     private int currentDepth;
     private String currentURL;
     
-    public void URLDepthPair(String URL, int depth) {
+    public URLDepthPair(String URL, int depth) {
         currentDepth = depth;
         currentURL = URL;
     }

@@ -2,6 +2,7 @@
 
 import java.net.*;
 import java.util.*;
+import java.io.*;
 
 public class Crawler {
     
@@ -39,14 +40,14 @@ public class Crawler {
         seenURLs.add(currentDepthPair.getURL());
         
         while (pendingURLs.size != 0) {
-            URLDepthPair depthPair = new URLDepthPair();
-            depthPair = pendingURLs.pop();
+            URLDepthPair depthPair = pendingURLs.pop();
             processedURLs.add(depthPair);
-            myDepth = depthPair.getDepth();
+            int myDepth = depthPair.getDepth();
+            LinkedList<String> linksList = new LinkedList<String>();
             linksList = getAllLinks(depthPair.getURL());
             if (myDepth < depth) {
                 for (int i=0;i<linksList.size();i++) {
-                    newURL = list.get(i);
+                    String newURL = list.get(i);
                     if (seenURLs.contains(newURL)) {
                         continue;
                     }
@@ -75,8 +76,8 @@ public class Crawler {
             throw MalformedURLException;
         }
         
-        myWriter.println("GET" + URLDepthPair.docPath + " HTTP:/1.1");
-        myWriter.println("Host: " + URLDepthPair.webHost);
+        myWriter.println("GET" + URLDepthPair.getDocPath + " HTTP:/1.1");
+        myWriter.println("Host: " + URLDepthPair.getWebHost);
         myWriter.println("Connection: close");
         myWriter.println();
         
