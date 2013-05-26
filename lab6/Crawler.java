@@ -61,7 +61,7 @@ public class Crawler {
         }
         Iterator<URLDepthPair> iter = processedURLs.iterator();
         while (iter.hasNext()) {
-            System.err.println("FileNotFoundException: " + e.getMessage());
+            System.out.println(iter.next());
         }
     }
     private static LinkedList<String> getAllLinks(URLDepthPair myDepthPair) {
@@ -69,7 +69,7 @@ public class Crawler {
             Socket sock = new Socket(myDepthPair.getURL(), 80);
         }
         catch (UnknownHostException) {
-            System.out.print
+            
         }
         try {
             sock.setSoTimeout(3000);
