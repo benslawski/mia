@@ -72,7 +72,7 @@ public class Crawler {
         // true means PrintWriter will flush after every output
         PrintWriter myWriter = new PrintWriter(outStream, true);
         
-        if (!webHost.startswith(myDepthPair.URL_PREFIX)) {
+        if (!webHost.startswith(URLDepthPair.URL_PREFIX)) {
             throw new MalformedURLException();
         }
         
