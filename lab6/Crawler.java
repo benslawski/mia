@@ -1,4 +1,4 @@
-// need to catch MalformedURLException for non http:// starting links
+// need to have main print URLs
 
 import java.net.*;
 import java.util.*;
@@ -10,13 +10,9 @@ public class Crawler {
     
     public static final String END_URL = "\"";
     
-    public LinkedList<URLDepthPair> getSites() {
-        return processedURLs;
-    }
-    
     public static void main(String[] args) {
         int depth = 0;
-        if (args.length =! 2) {
+        if (args.length != 2) {
             System.out.println("usage: java Crawler <URL> <depth>");
             System.exit(1);
         }
@@ -62,7 +58,6 @@ public class Crawler {
             }
         }
     }
-    
     public LinkedList<String> getAllLinks(String URL) {
         Socket sock = new Socket(URL, 80);
         sock.setSoTimeout(3000);
@@ -119,7 +114,7 @@ public class Crawler {
     }
 }
 
-private class URLDepthPair {
+public class URLDepthPair {
     
     public static final String URL_PREFIX = "http://";
 
@@ -130,22 +125,22 @@ private class URLDepthPair {
         currentDepth = depth;
         currentURL = URL;
     }
-    public string getURL() {
+    public String getURL() {
         return currentURL;
     }
     public int getDepth() {
         return currentDepth;
     }
-    public string toString() {
+    public String toString() {
         return currentDepth.toString() + currentURL;
     }
-    public string getDocPath() {
+    public String getDocPath() {
         index = 0;
         index = currentURL.indexOf(Crawler.END_URL);
         String docPath = substring(index);
         return docPath;
     }
-    public string getwebHost() {
+    public String getwebHost() {
         index = 0;
         index = currentURL.indexOf(URL_PREFIX, index);
         index += URL_PREFIX.length();
