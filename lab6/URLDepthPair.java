@@ -19,9 +19,9 @@ public class URLDepthPair {
         return currentDepth.toString() + currentURL;
     }
     public String getDocPath() {
-        index = 0;
+        int index = 0;
         index = currentURL.indexOf(Crawler.END_URL);
-        String docPath = substring(index);
+        String docPath = currentURL.substring(index);
         return docPath;
     }
     public String getWebHost() {
@@ -33,7 +33,7 @@ public class URLDepthPair {
         beginIndex = index;
         index = currentURL.indexOf(Crawler.END_URL);
         endIndex = index - 1;
-        String webHost = substring(beginIndex, endIndex);
+        String webHost = currentURL.substring(beginIndex, endIndex);
         return webHost;
     }
     

@@ -104,7 +104,7 @@ public class Crawler {
                 index = line.indexOf(END_URL);
                 endIndex = index;
                 index += END_URL.length();
-                String newLink = substring(beginIndex, endIndex);
+                String newLink = line.substring(beginIndex, endIndex);
                 URLs.add(newLink);
             }
             
