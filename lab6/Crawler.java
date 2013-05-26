@@ -44,7 +44,7 @@ public class Crawler {
             processedURLs.add(depthPair);
             int myDepth = depthPair.getDepth();
             LinkedList<String> linksList = new LinkedList<String>();
-            linksList = this.getAllLinks(depthPair.getURL());
+            linksList = this.getAllLinks(depthPair);
             if (myDepth < depth) {
                 for (int i=0;i<linksList.size();i++) {
                     String newURL = linksList.get(i);
@@ -60,21 +60,24 @@ public class Crawler {
             }
         }
     }
-    public LinkedList<String> getAllLinks(String URL) {
-        Socket sock = new Socket(URL, 80);
+    public LinkedList<String> getAllLinks(URLDepthPair myDepthPair) {
+        Socket sock = new Socket(myDepthPair.getURL(), 80);
         sock.setSoTimeout(3000);
+        
+        String docPath = myDepthPair.getDocPath();
+        String webHost = myDepthPair.getWebHost();
         
         OutputStream outStream = sock.getOutputStream();
         
         // true means PrintWriter will flush after every output
         PrintWriter myWriter = new PrintWriter(outStream, true);
         
-        if (!URLDepthPair.getWebHost().startswith(URLDepthPair.URL_PREFIX)) {
+        if (!webHost.startswith(myDepthPair.URL_PREFIX)) {
             throw new MalformedURLException();
         }
         
-        myWriter.println("GET" + URLDepthPair.getDocPath() + " HTTP:/1.1");
-        myWriter.println("Host: " + URLDepthPair.getWebHost());
+        myWriter.println("GET" + docPath + " HTTP:/1.1");
+        myWriter.println("Host: " + webHost);
         myWriter.println("Connection: close");
         myWriter.println();
         
