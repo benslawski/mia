@@ -1,7 +1,15 @@
+// NOTE TO TA:  This should only be 2 days late because of the 1 day blanket
+// extension and ditch day.  
+
 import java.net.*;
 import java.util.*;
 
 public class Crawler {
+    
+    
+    public static final String URL_INDICATOR = "a href=\"";
+    
+    public static final String END_URL = "\"";
     
     public static void main(String[] args) {
         int depth = 0;
@@ -22,19 +30,45 @@ public class Crawler {
             }
 
         }
+        
+        
         LinkedList<URLDepthPair> pendingURLs = newLinkedList<URLDepthPair>();
         LinkedList<URLDepthPair> processedURLs = newLinkedList<URLDepthPair>();
         URLDepthPair currentDepthPair = new URLDepthPair(args[0], 0);
         pendingURLs.add(currentDepthPair);
         List<String> seenURLs = new List<String>;
         seenURLs.add(currentDepthPair.getURL());
+        
+        
+        Socket sock = new Socket(URL, 80);
+        sock.setSoTimeout(3000);
+        
+        OutputStream outStream = sock.getOutputStream();
+        
+        // true means PrintWriter will flush after every output
+        PrintWriter myWriter = new PrintWriter(outStream, true);
+        
+        myWriter.println("GET" + docPath + " HTTP:/1.1")
+        myWriter.println("Host: " + webHost);
+        myWriter.println("Connection: close")
+        myWriter.println();
+        
+        // Request is sent!  Server will start responding now.
+        
+        InputStream inStream = sock.getInputStream();
+        InputStreamReader inStreamReader = new InputStreamReader(inStream);
+        BufferedReader BuffReader = new BufferedReader(inStreamReader);
+        LinkedList<String> URLs = newLinkedList<String>();
+        while (true) {
+            String line = BuffReader.readLine();
+        
         while (pendingURLs.size != 0) {
             depthPair = pendingURLs.pop();
             processedURLs.add(depthPair);
             myDepth = depthPair.getDepth();
             linksList = getAllLinks(depthPair.getURL());
             if (myDepth < depth) {
-                for (int i=0);i<linksList.size();i++) {
+                for (int i=0;i<linksList.size();i++) {
                     newURL = list.get(i);
                     if seenURLs.contains(newURL) {
                         continue;
@@ -47,11 +81,67 @@ public class Crawler {
                 }
             }
         }
+        
+        
+        
+        public LinkedList<URLDEpthPair> getSites() {
+            return processedURLs;
+        }
     }
     
+    public LinkedList<String> getAllLinks(String URL) {
+        Socket sock = new Socket(URL, 80);
+        sock.setSoTimeout(3000);
+        
+        OutputStream outStream = sock.getOutputStream();
+        
+        // true means PrintWriter will flush after every output
+        PrintWriter myWriter = new PrintWriter(outStream, true);
+        
+        myWriter.println("GET" + docPath + " HTTP:/1.1")
+        myWriter.println("Host: " + webHost);
+        myWriter.println("Connection: close")
+        myWriter.println();
+        
+        // Request is sent!  Server will start responding now.
+        
+        InputStream inStream = sock.getInputStream();
+        InputStreamReader inStreamReader = new InputStreamReader(inStream);
+        BufferedReader BuffReader = new BufferedReader(inStreamReader);
+        LinkedList<String> URLs = newLinkedList<String>();
+        while (true) {
+            String line = BuffReader.readLine();
+            if (line == null)
+                break;  // Done reading document!
+            String start = URL_PREFIX;
+            String end = END_URL;
+            
+            //Search for our start in the current line.
+            int beginIndex = 0;
+            int endIndex = 0;
+            int index = 0;
+            while (true) {
+                index = line.indexOf(URL_INDICATOR, index);
+                if (index == -1) // No more copies of start in this line
+                    break;
+                index += URL_INDICATOR.length();
+                beginIndex = index;
+                index = line.indexOf(END_URL);
+                endIndex = index;
+                index += END_URL.length();
+                String newLink = substring(beginIndex, endIndex);
+                URLs.add(newLink);
+            }
+            
+        }
+        return URLs;
+    }
 }
 
 public class URLDepthPair {
+    
+    public static final String URL_PREFIX = "http://";
+
     private int currentDepth;
     private String currentURL;
     
@@ -68,5 +158,24 @@ public class URLDepthPair {
     public toString() {
         return currentDepth.toString() + currentURL;
     }
-    // URL parsing and manipulation
+    public getDocPath() {
+        index = currentURL.indexOf("/");
+        String docPath = substring(index);
+    }
+    public getwebHost() {
+        index = 0;
+        while (true) {
+            index = currentURL.indexOf(URL_PREFIX, index);
+            if (index == -1)
+                break;
+            index += URL_PREFIX.length();
+            beginIndex = index;
+            index = currentURL.indexOf("/");
+            endIndex = index - 1;
+            String webHost = substring(beginIndex, endIndex);
+            return webHost;
+        }
+    }
+        
+
 }
