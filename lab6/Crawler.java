@@ -65,29 +65,43 @@ public class Crawler {
         }
     }
     private static LinkedList<String> getAllLinks(URLDepthPair myDepthPair) {
+        LinkedList<String> URLs = new LinkedList<String>();
+        Socket sock;
+        
         try {
-            Socket sock = new Socket(myDepthPair.getURL(), 80);
+            sock = new Socket(myDepthPair.getURL(), 80);
         }
         catch (UnknownHostException e) {
+            System.err.println("UnknownHostException: " + e.getMessage());
+            return URLs;
             
+        }
+        catch (IOException ex) {
+            System.err.println("IOException: " + ex.getMessage());
+            return URLs;
         }
         try {
             sock.setSoTimeout(3000);
         }
-        catch (SocketException e) {
-            
+        catch (SocketException exc) {
+            System.err.println("SocketException: " + exc.getMessage());
+            return URLs;
         }
         String docPath = myDepthPair.getDocPath();
         String webHost = myDepthPair.getWebHost();
         
-        OutputStream outStream = sock.getOutputStream();
+        OutputStream outStream;
+        
+        try {
+            outStream = sock.getOutputStream();
+        }
+        catch (IOException exce) {
+            System.err.println("IOException: " + exce.getMessage());
+            return URLs;
+        }
         
         // true means PrintWriter will flush after every output
         PrintWriter myWriter = new PrintWriter(outStream, true);
-        
-        if (!webHost.startsWith(URLDepthPair.URL_PREFIX)) {
-            throw new MalformedURLException();
-        }
         
         myWriter.println("GET" + docPath + " HTTP:/1.1");
         myWriter.println("Host: " + webHost);
@@ -96,12 +110,26 @@ public class Crawler {
         
         // Request is sent!  Server will start responding now.
         
-        InputStream inStream = sock.getInputStream();
+        InputStream inStream;
+        
+        try {
+            inStream = sock.getInputStream();
+        }
+        catch (IOException excep){
+            System.err.println("IOException: " + excep.getMessage());
+            return URLs;
+        }
         InputStreamReader inStreamReader = new InputStreamReader(inStream);
         BufferedReader BuffReader = new BufferedReader(inStreamReader);
-        LinkedList<String> URLs = new LinkedList<String>();
         while (true) {
-            String line = BuffReader.readLine();
+            String line;
+            try {
+                line = BuffReader.readLine();
+            }
+            catch (IOException except) {
+                System.err.println("IOException: " + except.getMessage());
+                return URLs;
+            }
             if (line == null)
                 break;  // Done reading document!
             String start = URLDepthPair.URL_PREFIX;
