@@ -44,7 +44,7 @@ public class Crawler {
             processedURLs.add(depthPair);
             int myDepth = depthPair.getDepth();
             LinkedList<String> linksList = new LinkedList<String>();
-            linksList = this.getAllLinks(depthPair);
+            linksList = Crawler.getAllLinks(depthPair);
             if (myDepth < depth) {
                 for (int i=0;i<linksList.size();i++) {
                     String newURL = linksList.get(i);
@@ -59,11 +59,24 @@ public class Crawler {
                 }
             }
         }
+        Iterator<URLDepthPair> iter = processedURLs.iterator();
+        while (iter.hasNext()) {
+            System.err.println("FileNotFoundException: " + e.getMessage());
+        }
     }
-    public LinkedList<String> getAllLinks(URLDepthPair myDepthPair) {
-        Socket sock = new Socket(myDepthPair.getURL(), 80);
-        sock.setSoTimeout(3000);
-        
+    private static LinkedList<String> getAllLinks(URLDepthPair myDepthPair) {
+        try {
+            Socket sock = new Socket(myDepthPair.getURL(), 80);
+        }
+        catch (UnknownHostException) {
+            System.out.print
+        }
+        try {
+            sock.setSoTimeout(3000);
+        }
+        catch {
+            SocketException;
+        }
         String docPath = myDepthPair.getDocPath();
         String webHost = myDepthPair.getWebHost();
         
