@@ -16,7 +16,8 @@ public class URLDepthPair {
         return currentDepth;
     }
     public String toString() {
-        return currentDepth.toString() + currentURL;
+        String stringDepth = Integer.toString(currentDepth);
+        return stringDepth + currentURL;
     }
     public String getDocPath() {
         int index = 0;
