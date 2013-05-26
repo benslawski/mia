@@ -112,7 +112,7 @@ public class Crawler {
             String line = BuffReader.readLine();
             if (line == null)
                 break;  // Done reading document!
-            String start = URL_PREFIX;
+            String start = URLDepthPair.URL_PREFIX;
             String end = END_URL;
             
             //Search for our start in the current line.
@@ -158,18 +158,17 @@ public class URLDepthPair {
         return currentDepth.toString() + currentURL;
     }
     public getDocPath() {
-        index = currentURL.indexOf("/");
+        index = 0
+        index = currentURL.indexOf(Crawler.END_URL);
         String docPath = substring(index);
         return docPath;
     }
     public getwebHost() {
         index = 0;
         index = currentURL.indexOf(URL_PREFIX, index);
-        if (index == -1)
-            break;
         index += URL_PREFIX.length();
         beginIndex = index;
-        index = currentURL.indexOf("/");
+        index = currentURL.indexOf(Crawler.END_URL);
         endIndex = index - 1;
         String webHost = substring(beginIndex, endIndex);
         return webHost;
