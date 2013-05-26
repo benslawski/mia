@@ -1,6 +1,3 @@
-// NOTE TO TA:  This should only be 2 days late because of the 1 day blanket
-// extension and ditch day.  
-
 import java.net.*;
 import java.util.*;
 
