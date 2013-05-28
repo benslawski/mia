@@ -1,12 +1,19 @@
 public class URLPool {
     // List of all URLs to be searched with search depth.  Store as URLDepthPair instance
-    private LinkedList items;
+    
+    // A linked list to represent pending URLs.
+    private LinkedList<URLDepthPair> pendingURLs;
+    
+    // A linked list to represent processed URLs.
+    private LinkedList<URLDepthPair> processedURLs;
+    
     // One list for URLs to crawl, another for URLs seen
     public synchronized int waitingThreads;
     
     public URLPool(int size) {
         waitingThreads = 0;
-        items = new LinkedList();
+        pendingURLs = new LinkedList<URLDepthPair>();
+        processedURLs = new LinkedList<URLDepthPair>();
     }
     
     public boolean put(Object obj) {
