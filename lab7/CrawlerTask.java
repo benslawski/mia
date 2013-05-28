@@ -1,11 +1,13 @@
 public class CrawlerTask implements Runnable {
     // implements Runnable
     
+    public URLDepthPair currentDepthPair;
+    
     public CrawlerTask(URLPool name) {
         
     }
     public void run() {
-        while
+        currentDepthPair = URLDepthPool.get();
         // loop through starting threads to crawl each page
         // Get a URL from the pool, download the web page, looking for new URLs, stick new URLs back into the pool, go back to the beginning!
         // Process each URL in a helper method (from last week)

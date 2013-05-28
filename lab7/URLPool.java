@@ -20,30 +20,30 @@ public class URLPool {
         return waitingThreads;
     }
     
-    public boolean put(Object obj) {
+    public boolean put(URLDepthPair depthPair) {
         boolean added = false;
         
-        synchronized (items) {
-            items.addLast(obj);
+        synchronized (pendingURLs) {
+            items.addLast(depthPair);
             added = true;
             // Add to seen list
             // only add to pending list if depth is less than max depth, then notify
                 
             // Added something, so wake up a consumer.
             waitingThreads--;
-            items.notify();
+            pendingURLs.notify();
             
         }
         
         return added;
     }
     
-    public synchronized Object get() {
-        Object item = null;
-        while (items.size() == 0) {
+    public synchronized URLDepthPair get() {
+        URLDepthPair item = null;
+        while (pendingURLs.size() == 0) {
             waitingThreads++;
             wait();
             
-        return items.removeFirst();
+        return URLDepthPair.removeFirst();
     }
 }
