@@ -16,6 +16,10 @@ public class URLPool {
         processedURLs = new LinkedList<URLDepthPair>();
     }
     
+    public int getWaitThreads() {
+        return waitingThreads;
+    }
+    
     public boolean put(Object obj) {
         boolean added = false;
         

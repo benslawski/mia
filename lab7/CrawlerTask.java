@@ -5,6 +5,8 @@ public class CrawlerTask implements Runnable {
         
     }
     public void run() {
+        while
+        // loop through starting threads to crawl each page
         // Get a URL from the pool, download the web page, looking for new URLs, stick new URLs back into the pool, go back to the beginning!
         // Process each URL in a helper method (from last week)
         // Handle exceptions gracefully. If a problem occurs with a URL, go to the next one!
