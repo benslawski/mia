@@ -1,5 +1,5 @@
 /**
- * A class to represent [URL, depth] pairs for our Crawler. 
+ * A class to represent [URL, depth] pairs for our Crawler.
  */
 public class URLDepthPair {
     
@@ -27,22 +27,22 @@ public class URLDepthPair {
     public String getURL() {
         return currentURL;
     }
-    /** 
+    /**
      * A method which returns the current depth.
      */
     public int getDepth() {
         return currentDepth;
     }
     /**
-     * A method which returns the current URL and current depth in string 
+     * A method which returns the current URL and current depth in string
      * format.
      */
     public String toString() {
         String stringDepth = Integer.toString(currentDepth);
         return stringDepth + '\t' + currentURL;
     }
-    /** 
-     * A method which returns the docPath of the current URL. 
+    /**
+     * A method which returns the docPath of the current URL.
      */
     public String getDocPath() {
         int index = 0;

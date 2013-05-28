@@ -8,25 +8,25 @@ import java.util.*;
 import java.io.*;
 
 /**
- * This class implements the main functionality of our web crawler application. 
- * It has a getAllLinks method to store all links on a given webpage in 
+ * This class implements the main functionality of our web crawler application.
+ * It has a getAllLinks method to store all links on a given webpage in
  * addition to the main method which keeps track of important variables.
  */
 public class Crawler {
     
     /**
-     * A constant for the string indicating a link.  
+     * A constant for the string indicating a link.
      */
     public static final String URL_INDICATOR = "a href=\"";
     
     /**
-     * A constant for the string indicating the end of the webhost and 
+     * A constant for the string indicating the end of the webhost and
      * beginning of docpath.
      */
     public static final String END_URL = "\"";
     
     /**
-     * The crawler's main method.  The program should accept a string 
+     * The crawler's main method.  The program should accept a string
      * representing the URL at which to start browing and a positive integer
      * representing a maximum search depth.  Stores the URL as a string with
      * depth as URLDepthPair.  Keeps track of links processed, links pending,
@@ -66,7 +66,7 @@ public class Crawler {
         LinkedList<URLDepthPair> processedURLs = new LinkedList<URLDepthPair>();
         
         // A URL Depth Pair to represent the website that the user inputted
-        // with depth 0. 
+        // with depth 0.
         URLDepthPair currentDepthPair = new URLDepthPair(args[0], 0);
         
         // Add the current website from user input to pending URLs.
@@ -112,7 +112,7 @@ public class Crawler {
                 }
             }
         }
-        // Print out all processed URLs with depth. 
+        // Print out all processed URLs with depth.
         Iterator<URLDepthPair> iter = processedURLs.iterator();
         while (iter.hasNext()) {
             System.out.println(iter.next());
@@ -166,7 +166,7 @@ public class Crawler {
         // Initialize the OutputStream.
         OutputStream outStream;
         
-        // Try to getOutputStream from the socket. 
+        // Try to getOutputStream from the socket.
         try {
             outStream = sock.getOutputStream();
         }
@@ -180,30 +180,30 @@ public class Crawler {
         // every output.
         PrintWriter myWriter = new PrintWriter(outStream, true);
         
-        // Send request to server.  
+        // Send request to server.
         myWriter.println("GET" + docPath + " HTTP:/1.1");
         myWriter.println("Host: " + webHost);
         myWriter.println("Connection: close");
         myWriter.println();
-
+        
         // Initialize the InputStream.
         InputStream inStream;
         
-        // Try to getInputStream from socket.  
+        // Try to getInputStream from socket.
         try {
             inStream = sock.getInputStream();
         }
-        // Catch IOException and return blank list. 
+        // Catch IOException and return blank list.
         catch (IOException excep){
             System.err.println("IOException: " + excep.getMessage());
             return URLs;
         }
         // Create a new InputStreamReader and BufferedReader to read lines
-        // from the server.  
+        // from the server.
         InputStreamReader inStreamReader = new InputStreamReader(inStream);
         BufferedReader BuffReader = new BufferedReader(inStreamReader);
         
-        // Try to read line from Buffered reader. 
+        // Try to read line from Buffered reader.
         while (true) {
             String line;
             try {
