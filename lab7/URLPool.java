@@ -7,7 +7,6 @@ public class URLPool {
     // A linked list to represent processed URLs.
     private LinkedList<URLDepthPair> processedURLs;
     
-    // One list for URLs to crawl, another for URLs seen
     public synchronized int waitingThreads;
     
     public URLPool(int size) {
