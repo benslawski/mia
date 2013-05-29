@@ -15,7 +15,7 @@ public class URLPool {
         processedURLs = new LinkedList<URLDepthPair>();
     }
     
-    public int getWaitThreads() {
+    public synchronized int getWaitThreads() {
         return waitingThreads;
     }
     

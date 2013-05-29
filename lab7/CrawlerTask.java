@@ -1,5 +1,4 @@
 public class CrawlerTask implements Runnable {
-    // implements Runnable
     
     public URLDepthPair depthPair;
     
@@ -58,22 +57,35 @@ public class CrawlerTask implements Runnable {
             }
         }
 
+        // A URL Depth Pair to represent the website that the user inputted
+        // with depth 0.
+        URLDepthPair currentDepthPair = new URLDepthPair(args[0], 0);
+        
+        URLPool pool = new URLPool();
+        
+        pool.put(currentDepthPair);
+        
+        for (int i=0;i<=threads;i++) {
+            CrawlerTask crawler = new CrawlerTask(pool);
+            Thread thread = new Thread(crawler);
+            thread.start();
+        }
+        
+        while (pool.getWaitThreads() != threads) {
+            try {
+                Thread.sleep(100);  // 0.1 second
+            } catch (InterruptedException ie) {
+                System.out.println("Caught unexpected " +
+                                   "InterruptedException, ignoring...");
+            }
+        }
+        
+        // Print out all processed URLs with depth.
+        Iterator<URLDepthPair> iter = processedURLs.iterator();
+        while (iter.hasNext()) {
+            System.out.println(iter.next());
+        }
         
         System.exit(0);
-    }
-}
-
-
-
-CrawlerTask c = new CrawlerTask(pool);
-Thread t = new Thread(c);
-t.start();
-
-while (pool.getWaitCount() != numThreads) {
-    try {
-        Thread.sleep(100);  // 0.1 second
-    } catch (InterruptedException ie) {
-        System.out.println("Caught unexpected " +
-            "InterruptedException, ignoring...");
     }
 }
