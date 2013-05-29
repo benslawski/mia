@@ -7,6 +7,10 @@ public class URLPool {
     // A linked list to represent processed URLs.
     private LinkedList<URLDepthPair> processedURLs;
     
+    // An array list to represent URLs that have been seen. Add current
+    // website.
+    private ArrayList<String> seenURLs = new ArrayList<String>();
+    
     public synchronized int waitingThreads;
     
     public URLPool(int size) {
@@ -19,30 +23,36 @@ public class URLPool {
         return waitingThreads;
     }
     
-    public boolean put(URLDepthPair depthPair) {
+    public synchronized boolean put(URLDepthPair depthPair) {
         boolean added = false;
-        
-        synchronized (pendingURLs) {
-            items.addLast(depthPair);
-            added = true;
-            // Add to seen list
-            // only add to pending list if depth is less than max depth, then notify
+
+            if (depthPair.getDepth() < depth) {
+                pendingURLs.addLast(depthPair);
+                added = true;
                 
-            // Added something, so wake up a consumer.
-            waitingThreads--;
-            pendingURLs.notify();
-            
+                // Added something, so wake up a consumer.
+                waitingThreads--;
+                pendingURLs.notify();
+            }
+            else {
+                seenURLs.add(depthPair.getURL());
+            }
+
         }
         
         return added;
     }
     
     public synchronized URLDepthPair get() {
-        URLDepthPair item = null;
+        URLDepthPair myDepthPair = null;
         while (pendingURLs.size() == 0) {
             waitingThreads++;
             wait();
-            
-        return URLDepthPair.removeFirst();
+        } 
+
+        myDepthPair = pendingURLs.removeFirst();
+        seenURLs.add(myDepthPair.getURL());
+        processedURLs.add(myDepthPair);
+        return myDepthPair;
     }
 }
