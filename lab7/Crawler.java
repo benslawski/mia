@@ -8,7 +8,7 @@ public class Crawler {
         
         // A variable for current depth.
         int depth = 0;
-        int threads = 0;
+        int numThreads = 0;
         
         // Checks to see if the input was the correct length.  If not, prints
         // out a usage message and exits.
@@ -21,7 +21,7 @@ public class Crawler {
             try {
                 // Parse the string argument into an integer value.
                 depth = Integer.parseInt(args[1]);
-                threads = Integer.parseInt(args[2]);
+                numThreads = Integer.parseInt(args[2]);
             }
             catch (NumberFormatException nfe) {
                 // The second or third argument isn't a valid integer.  Stop
@@ -39,13 +39,12 @@ public class Crawler {
         
         pool.put(currentDepthPair);
         
-        for (int i=0;i<=threads;i++) {
+        for (int i=0;i<=numThreads;i++) {
             CrawlerTask crawler = new CrawlerTask(pool);
-            Thread thread = new Thread(crawler);
-            thread.start();
+            new Thread(crawler).start();
         }
         
-        while (pool.getWaitThreads() != threads) {
+        while (pool.getWaitThreads() != numThreads) {
             try {
                 Thread.sleep(100);  // 0.1 second
             } catch (InterruptedException ie) {

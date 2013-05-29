@@ -6,7 +6,6 @@ public class CrawlerTask implements Runnable {
         
     }
     public void run() {
-        while ()
         depthPair = pool.get();
         int myDepth = depthPair.getDepth();
         
