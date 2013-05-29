@@ -1,3 +1,13 @@
+import java.net.*;
+import java.util.*;
+import java.io.*;
+
+/**
+ * Class crawler processes command-line arguments, creates an instance of the 
+ * URL pool, adds the inputted URL to the pool, and creates the number of crawler 
+ * tasks inputted with threads to run them.  Then when crawling is complete,
+ * prints out the list of URLs found.
+ */
 public class Crawler {
     
     
@@ -12,7 +22,9 @@ public class Crawler {
      */
     public static final String END_URL = "\"";
 
-    
+    /**
+     * A method to perform Crawler's tasks.
+     */
     public static void main(String[] args) {
         // Get initial URL, max depth, number of threads from command-line parameters
         // Create a URL pool, add the initial URL to pool
@@ -20,7 +32,7 @@ public class Crawler {
         // Check pool every 0.1 to 1s for completion
         // When finished, print URLs in the pool's "seen" list
         
-        // A variable for current depth.
+        // Variables for current depth and requested number of threads.
         int depth = 0;
         int numThreads = 0;
         
@@ -49,15 +61,17 @@ public class Crawler {
         // with depth 0.
         URLDepthPair currentDepthPair = new URLDepthPair(args[0], 0);
         
+        // Create a URL pool and add the user inputted website.
         URLPool pool = new URLPool();
-        
         pool.put(currentDepthPair);
         
-        int activeThreads = numThreads - pool.getWaitThreads();
         
-        while (pool.length > 0 && pool.getWaitThreads() < numThreads) {
+        //FIX
+        int totalThreads = CrawlerTask.threads;
+        
+        while (totalThreads < numThreads) {
             if (activeThreads == numThreads) {
-                waitingThreads++;
+                pool.addWaitThreads();
                 wait();
             }
             else if (activeThreads < numThreads) {
@@ -69,24 +83,28 @@ public class Crawler {
            
         }
         
+        // Check to see if all threads are waiting.
         while (pool.getWaitThreads() != numThreads) {
             try {
                 Thread.sleep(100);  // 0.1 second
             }
+            // Catch InterruptedException.
             catch (InterruptedException ie) {
                 System.out.println("Caught unexpected " +
                 "InterruptedException, ignoring...");
             }
         }
-        else {
-            // Print out all processed URLs with depth.
-            Iterator<URLDepthPair> iter = processedURLs.iterator();
-            while (iter.hasNext()) {
-                System.out.println(iter.next());
-            }
-            
-            System.exit(0);
+        // When all threads are waiting, print out all processed URLs with
+        // depth.
+        ArrayList<String> seenList = new ArrayList<String>();
+        seenList = pool.getSeenList();
+        
+        Iterator<String> iter = seenList.iterator();
+        while (iter.hasNext()) {
+            System.out.println(iter.next());
         }
+        // Exit.
+        System.exit(0);
         
 
 
@@ -97,7 +115,7 @@ public class Crawler {
      * type.  Connects to the website in the URLDepthPair, finds all links
      * on the site, and adds them to a new LinkedList which gets returned.
      */
-    private static LinkedList<String> getAllLinks(URLDepthPair myDepthPair) {
+    public static LinkedList<String> getAllLinks(URLDepthPair myDepthPair) {
         
         // Initialize the linked list of strings which will store the links
         // that we find.
