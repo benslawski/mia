@@ -1,17 +1,38 @@
 public class CrawlerTask implements Runnable {
     // implements Runnable
     
-    public URLDepthPair currentDepthPair;
+    public URLDepthPair depthPair;
     
     public CrawlerTask(URLPool name) {
         
     }
     public void run() {
-        currentDepthPair = URLDepthPool.get();
-        // loop through starting threads to crawl each page
-        // Get a URL from the pool, download the web page, looking for new URLs, stick new URLs back into the pool, go back to the beginning!
-        // Process each URL in a helper method (from last week)
-        // Handle exceptions gracefully. If a problem occurs with a URL, go to the next one!
+        depthPair = URLDepthPool.get();
+        int myDepth = depthPair.getDepth();
+        
+        // Get all links from the site and store them in a new linked list.
+        LinkedList<String> linksList = new LinkedList<String>();
+        linksList = Crawler.getAllLinks(depthPair);
+        
+        // If we haven't reached the maximum depth, add links from the site
+        // that haven't been seen before to pendingURLs and seenURLs.
+        if (myDepth < depth) {
+            // Iterate through links from site.
+            for (int i=0;i<linksList.size();i++) {
+                String newURL = linksList.get(i);
+                // If we've already seen the link, continue.
+                if (seenURLs.contains(newURL)) {
+                    continue;
+                }
+                // If we haven't seen the link, create a new URLDepthPair
+                // with depth one greater than current depth, and add
+                // to pendingURLs and seenURLs.
+                else {
+                    URLDepthPair newDepthPair = new URLDepthPair(newURL, myDepth + 1);
+                    pool.add(newDepthPair);
+                }
+            }
+        }
     }
     
     public static void main(String[] args) {
