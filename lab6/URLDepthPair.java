@@ -1,12 +1,11 @@
+import java.net.*;
+
 /**
  * A class to represent [URL, depth] pairs for our Crawler. 
  */
 public class URLDepthPair {
     
-    /**
-     * A constant to represent the URL prefix.
-     */
-    public static final String URL_PREFIX = "http://";
+
     
     /**
      * Fields to represent the current URL and current depth.
@@ -45,33 +44,27 @@ public class URLDepthPair {
      * A method which returns the docPath of the current URL. 
      */
     public String getDocPath() {
-        int index = 0;
-        // Search for the end of the host and set index.
-        index = currentURL.indexOf(Crawler.END_URL);
-        // Get substring after the end of the host.
-        String docPath = currentURL.substring(index);
-        return docPath;
+        try {
+            URL url = new URL(currentURL);
+            return url.getPath();
+        }
+        catch (MalformedURLException e) {
+            System.err.println("MalformedURLException: " + e.getMessage());
+            return null;
+        }
     }
     /**
      * A method which returns the webHost of the current URL.
      */
     public String getWebHost() {
-        int index = 0;
-        int beginIndex = 0;
-        int endIndex = 0;
-        // Search for the URL prefix.
-        index = currentURL.indexOf(URL_PREFIX, index);
-        // Advance index length of URL prefix.
-        index += URL_PREFIX.length();
-        // Set begin index to current index.
-        beginIndex = index;
-        // Search for end of host.
-        index = currentURL.indexOf(Crawler.END_URL);
-        // Set end index to end of host - 1.
-        endIndex = index - 1;
-        // Get substring between URL prefix and end of host.
-        String webHost = currentURL.substring(beginIndex, endIndex);
-        return webHost;
+        try {
+            URL url = new URL(currentURL);
+            return url.getHost();
+        }
+        catch (MalformedURLException e) {
+            System.err.println("MalformedURLException: " + e.getMessage());
+            return null;
+        }
     }
     
     

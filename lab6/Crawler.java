@@ -1,8 +1,3 @@
-// NOTE TO TA:  This should be 3 days late because of the 1 day blanket
-// extension and ditch day (I assume ditch day will grant another 1 day
-// extension).
-
-
 import java.net.*;
 import java.util.*;
 import java.io.*;
@@ -14,16 +9,7 @@ import java.io.*;
  */
 public class Crawler {
     
-    /**
-     * A constant for the string indicating a link.  
-     */
-    public static final String URL_INDICATOR = "a href=\"";
-    
-    /**
-     * A constant for the string indicating the end of the webhost and 
-     * beginning of docpath.
-     */
-    public static final String END_URL = "\"";
+
     
     /**
      * The crawler's main method.  The program should accept a string 
@@ -135,7 +121,7 @@ public class Crawler {
         // Try to create a new socket with the URL passed to the method in
         // the URLDepthPair and port 80.
         try {
-            sock = new Socket(myDepthPair.getURL(), 80);
+            sock = new Socket(myDepthPair.getWebHost(), 80);
         }
         // Catch UnknownHostException and return empty list.
         catch (UnknownHostException e) {
@@ -181,7 +167,7 @@ public class Crawler {
         PrintWriter myWriter = new PrintWriter(outStream, true);
         
         // Send request to server.  
-        myWriter.println("GET" + docPath + " HTTP:/1.1");
+        myWriter.println("GET " + docPath + " HTTP/1.1");
         myWriter.println("Host: " + webHost);
         myWriter.println("Connection: close");
         myWriter.println();
@@ -217,10 +203,7 @@ public class Crawler {
             // Done reading document!
             if (line == null)
                 break;
-            
-            // Variables to represent the URL prefix and end of URL.
-            String start = URLDepthPair.URL_PREFIX;
-            String end = END_URL;
+        
             
             // Variables to represent indices where the links begin and end as
             // well as current index.
@@ -229,19 +212,30 @@ public class Crawler {
             int index = 0;
             
             while (true) {
+
+                /**
+                 * A constant for the string indicating a link.
+                 */
+                String URL_INDICATOR = "a href=\"";
+                
+                /**
+                 * A constant for the string indicating the end of the webhost and
+                 * beginning of docpath.
+                 */
+                String END_URL = "\"";
+                
+                
                 // Search for our start in the current line.
                 index = line.indexOf(URL_INDICATOR, index);
                 if (index == -1) // No more copies of start in this line
                     break;
                 // Advance the current index.
                 index += URL_INDICATOR.length();
-                // Set the begin index to start of URL.
                 beginIndex = index;
                 
                 // Search for our end in the current line.
-                index = line.indexOf(END_URL);
-                // Set the end index to the current index.
-                endIndex = index;
+                endIndex = line.indexOf(END_URL, index);
+                index = endIndex;
                 
                 // Set the link to the substring between the begin index
                 // and end index.  Add to our URLs list.
