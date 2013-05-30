@@ -83,14 +83,11 @@ public class Crawler {
                 
         // When all threads are waiting, print out all processed URLs with
         // depth.
-        ArrayList<String> seenList = new ArrayList<String>();
-        seenList = pool.getSeenList();
-        
-        Iterator<String> iter = seenList.iterator();
+        // Print out all processed URLs with depth.
+        Iterator<URLDepthPair> iter = pool.processedURLs.iterator();
         while (iter.hasNext()) {
             System.out.println(iter.next());
-        }
-        // Exit.
+        }        // Exit.
         System.exit(0);
         
 

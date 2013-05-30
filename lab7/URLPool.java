@@ -10,7 +10,7 @@ public class URLPool {
     private LinkedList<URLDepthPair> pendingURLs;
     
     /** A linked list to represent processed URLs. */
-    private LinkedList<URLDepthPair> processedURLs;
+    public LinkedList<URLDepthPair> processedURLs;
     
     /** An array list to represent URLs that have been seen. */
     private ArrayList<String> seenURLs = new ArrayList<String>();
@@ -58,7 +58,7 @@ public class URLPool {
             // Added something, so wake up a consumer.  Decrement number of
             // waiting threads.
             waitingThreads--;
-            pendingURLs.notify();
+            this.notify();
         }
         // If the depth is not less than the max depth, just add the depth pair
         // to seen list.
@@ -78,10 +78,10 @@ public class URLPool {
         URLDepthPair myDepthPair = null;
         
         // While the pool is empty, wait.
-        while (pendingURLs.size() == 0) {
+        if (pendingURLs.size() == 0) {
             waitingThreads++;
             try {
-                pendingURLs.wait();
+                this.wait();
             }
             catch (InterruptedException e) {
                 System.err.println("MalformedURLException: " + e.getMessage());
