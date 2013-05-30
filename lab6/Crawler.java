@@ -229,11 +229,12 @@ public class Crawler {
                 index = line.indexOf(URL_INDICATOR, index);
                 if (index == -1) // No more copies of start in this line
                     break;
-                // Advance the current index.
+                
+                // Advance the current index and set to beginIndex.
                 index += URL_INDICATOR.length();
                 beginIndex = index;
                 
-                // Search for our end in the current line.
+                // Search for our end in the current line and set to endIndex.
                 endIndex = line.indexOf(END_URL, index);
                 index = endIndex;
                 
