@@ -13,10 +13,10 @@ public class CrawlerTask implements Runnable {
     /** A field for the given depth pair */
     public URLDepthPair depthPair;
     
-    public int threads;
     
     /** A method to run the tasks of CrawlerTask */
     public void run(URLPool pool) {
+        
 
         // Get the next depth pair from the pool.
         depthPair = pool.get();

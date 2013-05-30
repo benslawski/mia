@@ -92,7 +92,7 @@ public class URLPool {
     /** 
      * A synchronized method to get the list of seen URLs.
      */
-    public synchronized ArrayList<String>   getSeenList() {
+    public synchronized ArrayList<String> getSeenList() {
         return seenURLs;
     }
 }

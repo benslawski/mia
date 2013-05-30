@@ -55,34 +55,32 @@ public class Crawler {
         pool.put(currentDepthPair);
         
         
-        //FIX
-        int totalThreads = CrawlerTask.threads;
+        // while pool is empty and all threads are waiting
+            // if number of threads (actievecount) < inputted number
+                // make new threads
+            // else
         
-        while (totalThreads < numThreads) {
-            if (activeThreads == numThreads) {
-                pool.addWaitThreads();
-                wait();
-            }
-            else if (activeThreads < numThreads) {
+        int totalThreads = 0;
+        int initialActive = Thread.activeCount();
+        
+        while (pool.getWaitThreads() != numThreads) {
+            if (Thread.activeCount() - initialActive < numThreads) {
                 CrawlerTask crawler = new CrawlerTask(pool);
                 new Thread(crawler).start();
-                
+            }
+            else {
+                try {
+                    Thread.sleep(100);  // 0.1 second
+                }
+                // Catch InterruptedException.
+                catch (InterruptedException ie) {
+                    System.out.println("Caught unexpected " +
+                                       "InterruptedException, ignoring...");
+                }
 
             }
-           
         }
-        
-        // Check to see if all threads are waiting.
-        while (pool.getWaitThreads() != numThreads) {
-            try {
-                Thread.sleep(100);  // 0.1 second
-            }
-            // Catch InterruptedException.
-            catch (InterruptedException ie) {
-                System.out.println("Caught unexpected " +
-                "InterruptedException, ignoring...");
-            }
-        }
+                
         // When all threads are waiting, print out all processed URLs with
         // depth.
         ArrayList<String> seenList = new ArrayList<String>();
