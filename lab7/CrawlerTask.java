@@ -15,7 +15,7 @@ public class CrawlerTask implements Runnable {
     
     public URLPool myPool;
     
-    public void CrawlerTask(URLPool pool) {
+    public CrawlerTask(URLPool pool) {
         myPool = pool;
     }
     

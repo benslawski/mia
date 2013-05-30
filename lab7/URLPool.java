@@ -34,7 +34,7 @@ public class URLPool {
     
     //FIX?
     /** Synchronized method to increment the number of waiting threads. */
-    public synchronized int addWaitThreads() {
+    public synchronized void addWaitThreads() {
         waitingThreads++;
         
     }
@@ -80,7 +80,13 @@ public class URLPool {
         // While the pool is empty, wait.
         while (pendingURLs.size() == 0) {
             waitingThreads++;
-            pendingURLs.wait();
+            try {
+                pendingURLs.wait();
+            }
+            catch (InterruptedException e) {
+                System.err.println("MalformedURLException: " + e.getMessage());
+                return null;
+            }
         } 
         // Remove the first depth pair, add to seen URLs and processed URLs,
         // and return it.
