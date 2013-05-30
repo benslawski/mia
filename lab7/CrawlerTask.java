@@ -13,13 +13,18 @@ public class CrawlerTask implements Runnable {
     /** A field for the given depth pair */
     public URLDepthPair depthPair;
     
+    public URLPool myPool;
+    
+    public void CrawlerTask(URLPool pool) {
+        myPool = pool;
+    }
     
     /** A method to run the tasks of CrawlerTask */
-    public void run(URLPool pool) {
+    public void run() {
         
 
         // Get the next depth pair from the pool.
-        depthPair = pool.get();
+        depthPair = myPool.get();
         
         // The depth of the depth pair.
         int myDepth = depthPair.getDepth();
@@ -34,7 +39,7 @@ public class CrawlerTask implements Runnable {
             
             // Create a new depth pair for each link found and add to pool.
             URLDepthPair newDepthPair = new URLDepthPair(newURL, myDepth + 1);
-            pool.put(newDepthPair);
+            myPool.put(newDepthPair);
         }
     }
 }
