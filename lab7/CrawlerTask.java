@@ -1,7 +1,5 @@
 import java.util.*;
 
-//FIX
-
 /** CrawlerTask implements the Runnable interface.  Each instance has a
  * reference to an instance of the URLPool class.  Gets a URL depth pair from
  * the pool (waiting if not available), retrieves the web page, gets all
@@ -13,15 +11,15 @@ public class CrawlerTask implements Runnable {
     /** A field for the given depth pair */
     public URLDepthPair depthPair;
     
+    /** Field for the URL pool */
     public URLPool myPool;
     
-    public CrawlerTask(URLPool pool) {
+    /** Constructor to set the variable URL pool to the pool passed to method */    public CrawlerTask(URLPool pool) {
         myPool = pool;
     }
     
     /** A method to run the tasks of CrawlerTask */
     public void run() {
-        
 
         // Get the next depth pair from the pool.
         depthPair = myPool.get();

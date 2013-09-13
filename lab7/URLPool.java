@@ -32,12 +32,6 @@ public class URLPool {
         return waitingThreads;
     }
     
-    //FIX?
-    /** Synchronized method to increment the number of waiting threads. */
-    public synchronized void addWaitThreads() {
-        waitingThreads++;
-        
-    }
     /** Synchronized method to return the size of the pool. */
     public synchronized int size() {
         return pendingURLs.size();

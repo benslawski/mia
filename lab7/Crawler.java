@@ -15,12 +15,6 @@ public class Crawler {
      * A method to perform Crawler's tasks.
      */
     public static void main(String[] args) {
-        // Get initial URL, max depth, number of threads from command-line parameters
-        // Create a URL pool, add the initial URL to pool
-        // Create and start the requested number of threads
-        // Check pool every 0.1 to 1s for completion
-        // When finished, print URLs in the pool's "seen" list
-        
         // Variables for current depth and requested number of threads.
         int depth = 0;
         int numThreads = 0;
@@ -54,15 +48,14 @@ public class Crawler {
         URLPool pool = new URLPool();
         pool.put(currentDepthPair);
         
-        
-        // while pool is empty and all threads are waiting
-            // if number of threads (actievecount) < inputted number
-                // make new threads
-            // else
-        
+
+        // Variables for the total number of threads and initial threads.
         int totalThreads = 0;
         int initialActive = Thread.activeCount();
         
+        // While waiting threads does not equal requested number of threads,
+        // if total threads is less than requested number of threads,
+        // make more threads and start them on CrawlerTask.  Else, sleep.
         while (pool.getWaitThreads() != numThreads) {
             if (Thread.activeCount() - initialActive < numThreads) {
                 CrawlerTask crawler = new CrawlerTask(pool);
